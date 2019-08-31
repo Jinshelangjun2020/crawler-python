@@ -38,7 +38,7 @@ class PageParser:
             for url in tuigirlImgs:
                 href = url.get('href')
                 if 'item' in href:
-                    print href
+                    print (href)
                     '''DownLoader.downloadImage(href)'''
                     PageParser.extractImageUrl(href)
 
