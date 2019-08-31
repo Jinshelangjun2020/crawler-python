@@ -8,6 +8,7 @@ url = "https://www.meitulu.com/t/tuigirl/"
 '''downLoader = DownLoader()'''
 pageContent = DownLoader.downLoadPage(url)
 
+'''爬虫入口'''
 if len(pageContent):
     PageParser.parserForImageUrl(pageContent)
 
