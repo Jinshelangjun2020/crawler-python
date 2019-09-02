@@ -18,6 +18,15 @@ class PageParser:
             '''DownLoader.getBigImage("https://www.meitulu.com/img.html?img="+imageUrl)'''
             DownLoader.downloadImage(imageUrl)
 
+        #抽取列表页美女图#
+        currentGirlSubPages = pageSoup.find(attrs={'id': 'pages'})
+        girlPages = currentGirlSubPages.find_all('a')
+        prefixUrl = "https://www.meitulu.com"
+        for page in girlPages:
+            print(page.get("href"))
+
+
+
     """
     Beautiful Soup将复杂HTML文档转换成一个复杂的树形结构,每个节点都是Python对象,所有对象可以归纳为4种:
     """
