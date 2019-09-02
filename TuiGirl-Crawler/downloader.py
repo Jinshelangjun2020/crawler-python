@@ -4,7 +4,7 @@ import re
 from bs4 import BeautifulSoup
 
 class DownLoader:
-    imageDir = "E:\\worktest\\tuigirl"
+    imageDir = "E:\\worktest\\tuigirl2"
     imageCount = 0
     def __init__(self):
         print (self)
@@ -27,10 +27,9 @@ class DownLoader:
         print ("try to download image %s" %(imgUrl))
         response = requests.get(imgUrl)
         img = response.content
-        print (img)
         if response.status_code == 200:
             try:
-                path = "E:\\worktest\\tuigirl\\%d.jpg" % DownLoader.imageCount
+                path = "E:\\worktest\\tuigirl2\\%d.jpg" % DownLoader.imageCount
                 DownLoader.imageCount += 1
                 with open(path, 'wb') as f:
                     f.write(img)
