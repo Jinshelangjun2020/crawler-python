@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from downloader import DownLoader
 
 class PageParser:
+    hasDownloadedUrl = set()
     def __init__(self):
         print(self)
         print(self.__class__)
@@ -10,6 +11,10 @@ class PageParser:
 
     @staticmethod
     def extractImageUrl(url):
+        if url in PageParser.hasDownloadedUrl:
+            print ("we has downloaded url %s" %(url))
+            return
+
         pageContent = DownLoader.downLoadPage(url)
         pageSoup = BeautifulSoup(pageContent, 'html.parser')
         fuck = pageSoup.find_all(class_='content_img')
@@ -18,12 +23,18 @@ class PageParser:
             '''DownLoader.getBigImage("https://www.meitulu.com/img.html?img="+imageUrl)'''
             DownLoader.downloadImage(imageUrl)
 
+        PageParser.hasDownloadedUrl.add(url)
+
         #抽取列表页美女图#
         currentGirlSubPages = pageSoup.find(attrs={'id': 'pages'})
         girlPages = currentGirlSubPages.find_all('a')
-        prefixUrl = "https://www.meitulu.com"
+        prefixUrl = "https://www.meitulu.com/"
         for page in girlPages:
-            print(page.get("href"))
+            subImgUrl = page.get('href')
+            print("sub tuigirl image url %s" %(subImgUrl))
+            PageParser.extractImageUrl(prefixUrl + subImgUrl)
+
+
 
 
 

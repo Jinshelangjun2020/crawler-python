@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 class DownLoader:
     imageDir = "E:\\worktest\\tuigirl2"
     imageCount = 0
+    hasDownloadedImgUrl = set()
     def __init__(self):
         print (self)
 
@@ -24,6 +25,10 @@ class DownLoader:
 
     @staticmethod
     def downloadImage(imgUrl):
+        if imgUrl in DownLoader.hasDownloadedImgUrl:
+            print ("imgUrl %s has been downloaded ." %(imgUrl))
+            return
+
         print ("try to download image %s" %(imgUrl))
         response = requests.get(imgUrl)
         img = response.content
@@ -33,6 +38,7 @@ class DownLoader:
                 DownLoader.imageCount += 1
                 with open(path, 'wb') as f:
                     f.write(img)
+                    DownLoader.hasDownloadedImgUrl.add(imgUrl)
             except Exception as ex:
                 print ("...error but we go on...")
                 pass
