@@ -28,7 +28,7 @@ class PageParser:
         #抽取列表页美女图#
         currentGirlSubPages = pageSoup.find(attrs={'id': 'pages'})
         girlPages = currentGirlSubPages.find_all('a')
-        prefixUrl = "https://www.meitulu.com/"
+        prefixUrl = "https://www.meitulu.com"
         for page in girlPages:
             subImgUrl = page.get('href')
             print("sub tuigirl image url %s" %(subImgUrl))
@@ -61,6 +61,31 @@ class PageParser:
                     print (href)
                     '''DownLoader.downloadImage(href)'''
                     PageParser.extractImageUrl(href)
+
+
+        #是否找到foot分页
+        pages = soup.find(attrs={'id': 'pages'})
+        imgPageA = pages.find_all('a')
+        for img_page in imgPageA:
+            img_page_a_href = img_page.get('href')
+            if 'html' in img_page_a_href:
+                sub_page = DownLoader.downLoadPage(img_page_a_href)
+                PageParser.parserForImageUrl(sub_page)
+
+
+        #tag_ul 下载图集分类
+        otherBeautyUl = soup.find(attrs={'id': 'tag_ul'})
+        lis = otherBeautyUl.find_all('li')
+        for li in lis:
+            a = li.find('a')
+            tag_page_url = a.get('href')
+            tag_name = a.get('text')
+            print("tag page url %s" %(tag_name))
+
+            tag_page_content = DownLoader.downLoadPage(tag_page_url)
+
+            PageParser.parserForImageUrl(tag_page_content)
+
 
 
 
